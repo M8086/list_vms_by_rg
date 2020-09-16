@@ -1,4 +1,4 @@
-# get a list of all Virtual Machines for each Resource Group in a subscription
+# Get a list of all Virtual Machines for each Resource Group in a subscription
 import os
 import traceback
 
@@ -22,6 +22,7 @@ client = ResourceManagementClient(credentials, subscription_id)
 compute = ComputeManagementClient(credentials, subscription_id)
 
 
+# Gather a list of VMs from each resource group and print them
 def list_vms(resource_group):
     try:
         print(f'Getting VMs for: {resource_group}')
@@ -31,7 +32,7 @@ def list_vms(resource_group):
     except StopIteration:
         print(f'\n\nFound all VMs for Resource Group: {resource_group}')
 
-# gathers all resource groups and prints them to the terminal
+# Helper function to get all resource groups in the subscription
 def get_vms_by_rg():
     try:
         rg = client.resource_groups.list()
