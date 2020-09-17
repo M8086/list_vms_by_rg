@@ -30,7 +30,7 @@ def list_vms(resource_group):
         for vm in vms_iter:
             print(f"- {vm.name}")
     except CloudError:
-        print('Could not get the public IPs:\n{}'.format(traceback.format_exc()))
+        print('Could not get the information requested:\n{}'.format(traceback.format_exc()))
     else:
         print(f'\n\nGot all the VMs for {resource_group}\n')
 
@@ -42,7 +42,7 @@ def get_vms_by_rg():
         for group in rg_iter:
             list_vms(group.name)
     except CloudError:
-        print('Could not get the public IPs:\n{}'.format(traceback.format_exc()))
+        print('Could not get the information requested:\n{}'.format(traceback.format_exc()))
     else:
         print("\n\nGathered all resource groups and VMs")
 
