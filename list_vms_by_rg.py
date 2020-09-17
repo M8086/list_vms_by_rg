@@ -26,8 +26,7 @@ def list_vms(resource_group):
     try:
         print(f'Getting VMs for: {resource_group}')
         vms = compute.virtual_machines.list(resource_group)
-        vms_iter = iter(vms.__iter__())
-        for vm in vms_iter:
+        for vm in vms:
             print(f"- {vm.name}")
     except CloudError:
         print('Could not get the information requested:\n{}'.format(traceback.format_exc()))
@@ -38,8 +37,7 @@ def list_vms(resource_group):
 def get_vms_by_rg():
     try:
         rg = client.resource_groups.list()
-        rg_iter = iter(rg.__iter__())
-        for group in rg_iter:
+        for group in rg:
             list_vms(group.name)
     except CloudError:
         print('Could not get the information requested:\n{}'.format(traceback.format_exc()))
