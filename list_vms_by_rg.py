@@ -21,24 +21,29 @@ credentials, subscription_id = get_credentials()
 client = ResourceManagementClient(credentials, subscription_id)
 compute = ComputeManagementClient(credentials, subscription_id)
 
-
 # Gather a list of VMs from each resource group and print them
 def list_vms(resource_group):
     try:
         print(f'Getting VMs for: {resource_group}')
         vms = compute.virtual_machines.list(resource_group)
-        while True:
-            print(f'- {vms.next().name}')
-    except StopIteration:
-        print(f'\n\nFound all VMs for Resource Group: {resource_group}')
+        vms_iter = iter(vms.__iter__())
+        for vm in vms_iter:
+            print(f"- {vm.name}")
+    except CloudError:
+        print('Could not get the public IPs:\n{}'.format(traceback.format_exc()))
+    else:
+        print(f'\n\nGot all the VMs for {resource_group}\n')
 
 # Helper function to get all resource groups in the subscription
 def get_vms_by_rg():
     try:
         rg = client.resource_groups.list()
-        while True:
-            list_vms(rg.next().name)
-    except StopIteration:
+        rg_iter = iter(rg.__iter__())
+        for group in rg_iter:
+            list_vms(group.name)
+    except CloudError:
+        print('Could not get the public IPs:\n{}'.format(traceback.format_exc()))
+    else:
         print("\n\nGathered all resource groups and VMs")
 
 if __name__ == "__main__":
